@@ -6,7 +6,6 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -38,8 +37,8 @@ public class Jackson2Example {
 
             //jsonDeserialization
             // Convert JSON string from file to Object
-            Staff staff2 = mapper.readValue(new File("D:\\staff.json"), Staff.class);
-            System.out.println(staff2);
+            //Staff staff2 = mapper.readValue(new File("D:\\staff.json"), Staff.class);
+            //System.out.println(staff2);
 
             // Convert JSON string to Object
             String json = "{\"name\":\"mkyong\",\"salary\":7500,\"skills\":[\"java\",\"python\"]}";
@@ -48,6 +47,14 @@ public class Jackson2Example {
             System.out.println(stringStaff);
             String prettyStaff1 = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(staff1);
             System.out.println(prettyStaff1);
+
+            //convert Json String to List object
+            //一定要在json string首尾加[]，表明是一个List
+            String jsons = "[{\"name\":\"mkyong\",\"salary\":7500,\"skills\":[\"java\",\"python\"]},{\"name\":\"mkyong\",\"salary\":7500,\"skills\":[\"java\",\"python\"]}]";
+            List<Staff>staffList = mapper.readValue(jsons, mapper.getTypeFactory().constructCollectionType(List.class, Staff.class));
+            for(Staff staff3 : staffList){
+                System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(staff3));
+            }
 
 
         } catch (JsonGenerationException e) {
